@@ -820,7 +820,7 @@ section[id] {
   }
 
   .gallery-main.photo-tile {
-    position: static;
+    position: relative;
     width: 100%;
     min-height: 240px;
     transform: none;
