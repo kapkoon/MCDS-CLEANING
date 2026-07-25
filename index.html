@@ -54,19 +54,42 @@
 
           <aside class="hero-gallery" aria-label="Gallery preview">
             <div class="gallery-shell">
-              <div class="gallery-main placeholder-tile">
-                <span>Main photoshoot image</span>
+              <div class="gallery-main photo-tile" data-rotator>
+                <div class="rotator-item is-active">
+                  <img src="assets/393898A2-D037-45D7-8B96-F9CDEE05F283.jpeg" alt="MCDS cleaning team at work" loading="lazy" />
+                </div>
+                <div class="rotator-item">
+                  <img src="assets/IMG_6140.jpeg" alt="MCDS cleaning team at work" loading="lazy" />
+                </div>
+                <div class="rotator-item">
+                  <img src="assets/IMG_6179.jpeg" alt="MCDS cleaning team at work" loading="lazy" />
+                </div>
               </div>
               <div class="gallery-stack">
-                <div class="placeholder-tile">
-                  <span>Detail image</span>
+                <div class="photo-tile" data-rotator>
+                  <div class="rotator-item is-active">
+                    <img src="assets/5971AE7F-7305-4053-A59E-2E46946C2F9A.jpeg" alt="MCDS cleaning detail shot" loading="lazy" />
+                  </div>
+                  <div class="rotator-item">
+                    <img src="assets/IMG_6157.jpeg" alt="MCDS cleaning detail shot" loading="lazy" />
+                  </div>
+                  <div class="rotator-item">
+                    <video src="assets/IMG_6202.mov" muted loop playsinline autoplay preload="metadata"></video>
+                  </div>
                 </div>
-                <div class="placeholder-tile">
-                  <span>Team or site image</span>
+                <div class="photo-tile" data-rotator>
+                  <div class="rotator-item is-active">
+                    <img src="assets/CFC48B4F-8FF1-43D8-B9A8-73EEEB1FD87B.jpeg" alt="MCDS cleaning team on site" loading="lazy" />
+                  </div>
+                  <div class="rotator-item">
+                    <img src="assets/IMG_6172.jpeg" alt="MCDS cleaning team on site" loading="lazy" />
+                  </div>
+                  <div class="rotator-item">
+                    <video src="assets/IMG_6206.mov" muted loop playsinline autoplay preload="metadata"></video>
+                  </div>
                 </div>
               </div>
             </div>
-            <p class="gallery-note">Photoshoot gallery coming soon.</p>
           </aside>
 
         </div>
@@ -299,6 +322,17 @@
           }
         });
       }
+
+      document.querySelectorAll('[data-rotator]').forEach((rotator, idx) => {
+        const items = Array.from(rotator.querySelectorAll('.rotator-item'));
+        if (items.length <= 1) return;
+        let current = 0;
+        setInterval(() => {
+          items[current].classList.remove('is-active');
+          current = (current + 1) % items.length;
+          items[current].classList.add('is-active');
+        }, 4500 + idx * 700);
+      });
     </script>
   </body>
 </html>
