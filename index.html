@@ -19,7 +19,7 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=7" />
+    <link rel="stylesheet" href="styles.css?v=8" />
   </head>
   <body>
     <div id="top"></div>
@@ -54,40 +54,40 @@
 
           <aside class="hero-gallery" aria-label="Gallery preview">
             <div class="bento-grid">
-              <div class="photo-tile bento-a" data-rotator>
-                <div class="rotator-item is-active">
+              <div class="photo-tile bento-a" data-rotator tabindex="0" role="button" aria-label="Open photo gallery">
+                <div class="rotator-item is-active" data-index="0">
                   <img src="assets/393898A2-D037-45D7-8B96-F9CDEE05F283.jpeg" alt="MCDS cleaning team at work" loading="lazy" />
                 </div>
-                <div class="rotator-item">
+                <div class="rotator-item" data-index="1">
                   <img src="assets/IMG_6172.jpeg" alt="MCDS cleaning team at work" loading="lazy" />
                 </div>
               </div>
-              <div class="photo-tile bento-b" data-rotator>
-                <div class="rotator-item is-active">
+              <div class="photo-tile bento-b" data-rotator tabindex="0" role="button" aria-label="Open photo gallery">
+                <div class="rotator-item is-active" data-index="2">
                   <img src="assets/5971AE7F-7305-4053-A59E-2E46946C2F9A.jpeg" alt="MCDS cleaning detail shot" loading="lazy" />
                 </div>
-                <div class="rotator-item">
+                <div class="rotator-item" data-index="3">
                   <img src="assets/IMG_6179.jpeg" alt="MCDS cleaning detail shot" loading="lazy" />
                 </div>
               </div>
-              <div class="photo-tile bento-c" data-rotator>
-                <div class="rotator-item is-active">
+              <div class="photo-tile bento-c" data-rotator tabindex="0" role="button" aria-label="Open photo gallery">
+                <div class="rotator-item is-active" data-index="4">
                   <img src="assets/CFC48B4F-8FF1-43D8-B9A8-73EEEB1FD87B.jpeg" alt="MCDS cleaning team on site" loading="lazy" />
                 </div>
-                <div class="rotator-item">
+                <div class="rotator-item" data-index="5">
                   <video src="assets/IMG_6202.mov" muted loop playsinline autoplay preload="metadata"></video>
                 </div>
               </div>
-              <div class="photo-tile bento-d" data-rotator>
-                <div class="rotator-item is-active">
+              <div class="photo-tile bento-d" data-rotator tabindex="0" role="button" aria-label="Open photo gallery">
+                <div class="rotator-item is-active" data-index="6">
                   <img src="assets/IMG_6140.jpeg" alt="MCDS cleaning team at work" loading="lazy" />
                 </div>
-                <div class="rotator-item">
+                <div class="rotator-item" data-index="7">
                   <video src="assets/IMG_6206.mov" muted loop playsinline autoplay preload="metadata"></video>
                 </div>
               </div>
-              <div class="photo-tile bento-e" data-rotator>
-                <div class="rotator-item is-active">
+              <div class="photo-tile bento-e" data-rotator tabindex="0" role="button" aria-label="Open photo gallery">
+                <div class="rotator-item is-active" data-index="8">
                   <img src="assets/IMG_6157.jpeg" alt="MCDS cleaning detail shot" loading="lazy" />
                 </div>
               </div>
@@ -283,6 +283,15 @@
         </div>
       </div>
     </main>
+
+    <div class="lightbox" id="lightbox" hidden>
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close gallery">&times;</button>
+      <button class="lightbox-arrow lightbox-prev" id="lightbox-prev" aria-label="Previous photo">&#8249;</button>
+      <div class="lightbox-stage" id="lightbox-stage"></div>
+      <button class="lightbox-arrow lightbox-next" id="lightbox-next" aria-label="Next photo">&#8250;</button>
+      <p class="lightbox-counter" id="lightbox-counter"></p>
+    </div>
+
     <script>
       const quoteForm = document.getElementById('quote-request-form');
       const quoteMessage = document.getElementById('quote-form-message');
@@ -334,6 +343,96 @@
           current = (current + 1) % items.length;
           items[current].classList.add('is-active');
         }, 4500 + idx * 700);
+      });
+
+      const galleryMedia = [
+        { type: 'image', src: 'assets/393898A2-D037-45D7-8B96-F9CDEE05F283.jpeg', alt: 'MCDS cleaning team at work' },
+        { type: 'image', src: 'assets/IMG_6172.jpeg', alt: 'MCDS cleaning team at work' },
+        { type: 'image', src: 'assets/5971AE7F-7305-4053-A59E-2E46946C2F9A.jpeg', alt: 'MCDS cleaning detail shot' },
+        { type: 'image', src: 'assets/IMG_6179.jpeg', alt: 'MCDS cleaning detail shot' },
+        { type: 'image', src: 'assets/CFC48B4F-8FF1-43D8-B9A8-73EEEB1FD87B.jpeg', alt: 'MCDS cleaning team on site' },
+        { type: 'video', src: 'assets/IMG_6202.mov', alt: 'MCDS cleaning video' },
+        { type: 'image', src: 'assets/IMG_6140.jpeg', alt: 'MCDS cleaning team at work' },
+        { type: 'video', src: 'assets/IMG_6206.mov', alt: 'MCDS cleaning video' },
+        { type: 'image', src: 'assets/IMG_6157.jpeg', alt: 'MCDS cleaning detail shot' }
+      ];
+
+      const lightbox = document.getElementById('lightbox');
+      const lightboxStage = document.getElementById('lightbox-stage');
+      const lightboxCounter = document.getElementById('lightbox-counter');
+      const lightboxClose = document.getElementById('lightbox-close');
+      const lightboxPrev = document.getElementById('lightbox-prev');
+      const lightboxNext = document.getElementById('lightbox-next');
+      let lightboxIndex = 0;
+
+      function renderLightbox() {
+        const item = galleryMedia[lightboxIndex];
+        lightboxStage.innerHTML = '';
+        let el;
+        if (item.type === 'video') {
+          el = document.createElement('video');
+          el.src = item.src;
+          el.controls = true;
+          el.autoplay = true;
+          el.playsInline = true;
+        } else {
+          el = document.createElement('img');
+          el.src = item.src;
+          el.alt = item.alt;
+        }
+        lightboxStage.appendChild(el);
+        lightboxCounter.textContent = (lightboxIndex + 1) + ' / ' + galleryMedia.length;
+      }
+
+      function openLightbox(index) {
+        lightboxIndex = index;
+        renderLightbox();
+        lightbox.hidden = false;
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeLightbox() {
+        lightbox.hidden = true;
+        lightboxStage.innerHTML = '';
+        document.body.style.overflow = '';
+      }
+
+      function showNext() {
+        lightboxIndex = (lightboxIndex + 1) % galleryMedia.length;
+        renderLightbox();
+      }
+
+      function showPrev() {
+        lightboxIndex = (lightboxIndex - 1 + galleryMedia.length) % galleryMedia.length;
+        renderLightbox();
+      }
+
+      document.querySelectorAll('.photo-tile[data-rotator]').forEach((tile) => {
+        const openFromTile = () => {
+          const activeItem = tile.querySelector('.rotator-item.is-active');
+          const idx = activeItem ? parseInt(activeItem.dataset.index, 10) : 0;
+          openLightbox(idx);
+        };
+        tile.addEventListener('click', openFromTile);
+        tile.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openFromTile();
+          }
+        });
+      });
+
+      lightboxClose.addEventListener('click', closeLightbox);
+      lightboxNext.addEventListener('click', showNext);
+      lightboxPrev.addEventListener('click', showPrev);
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (lightbox.hidden) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') showNext();
+        if (e.key === 'ArrowLeft') showPrev();
       });
     </script>
   </body>
