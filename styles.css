@@ -261,10 +261,31 @@ section[id] {
   background: #fff;
   box-shadow: var(--shadow);
   transition: transform 260ms ease;
+  cursor: pointer;
 }
 
 .photo-tile:hover {
   transform: translateY(-4px) rotate(0deg) !important;
+}
+
+.photo-tile:hover::after {
+  opacity: 1;
+}
+
+.photo-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: rgba(15, 15, 15, 0.14);
+  opacity: 0;
+  transition: opacity 220ms ease;
+  pointer-events: none;
+}
+
+.photo-tile:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .photo-tile img,
@@ -969,5 +990,123 @@ section[id] {
 
   .brand-logo {
     width: min(190px, 76vw);
+  }
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: rgba(12, 12, 12, 0.93);
+  padding: 3.5rem 1.5rem;
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox-stage {
+  display: grid;
+  place-items: center;
+  max-width: min(92vw, 1100px);
+  max-height: 82vh;
+}
+
+.lightbox-stage img,
+.lightbox-stage video {
+  max-width: min(92vw, 1100px);
+  max-height: 82vh;
+  width: auto;
+  height: auto;
+  border-radius: 1rem;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55);
+}
+
+.lightbox-close,
+.lightbox-arrow {
+  position: absolute;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.lightbox-close:hover,
+.lightbox-arrow:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.lightbox-close {
+  top: 1.5rem;
+  right: 1.75rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+  font-size: 1.9rem;
+  line-height: 1;
+}
+
+.lightbox-arrow {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 999px;
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.lightbox-arrow:hover {
+  transform: translateY(-50%) scale(1.08);
+}
+
+.lightbox-prev {
+  left: 1rem;
+}
+
+.lightbox-next {
+  right: 1rem;
+}
+
+.lightbox-counter {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 720px) {
+  .lightbox {
+    padding: 2.5rem 1rem;
+  }
+
+  .lightbox-arrow {
+    width: 2.6rem;
+    height: 2.6rem;
+    font-size: 1.8rem;
+  }
+
+  .lightbox-prev {
+    left: 0.4rem;
+  }
+
+  .lightbox-next {
+    right: 0.4rem;
+  }
+
+  .lightbox-close {
+    top: 1rem;
+    right: 1rem;
+    width: 2.6rem;
+    height: 2.6rem;
   }
 }
