@@ -230,7 +230,7 @@ section[id] {
 }
 
 .hero-grid {
-  grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.85fr);
+  grid-template-columns: minmax(0, 0.55fr) minmax(340px, 1.35fr);
   align-items: start;
   min-height: calc(78vh - 5rem);
   position: relative;
