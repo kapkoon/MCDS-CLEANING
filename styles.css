@@ -521,6 +521,32 @@ section[id] {
 
 .testimonial-card-featured {
   grid-column: span 2;
+  grid-template-columns: 1.6fr 1fr;
+  align-items: center;
+  gap: 1rem 2.5rem;
+}
+
+.testimonial-card-featured .stars {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.testimonial-card-featured .quote {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.testimonial-card-featured span {
+  grid-column: 2;
+  grid-row: 1;
+  text-align: center;
+}
+
+.testimonial-card-featured .testimonial-logo {
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: center;
+  align-self: start;
 }
 
 .stars {
@@ -540,7 +566,7 @@ section[id] {
 }
 
 .testimonial-card-featured .quote {
-  max-width: 34ch;
+  max-width: none;
 }
 
 .standards-layout {
